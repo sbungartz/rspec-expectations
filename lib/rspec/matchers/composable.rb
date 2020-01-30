@@ -1,4 +1,4 @@
-RSpec::Support.require_rspec_support "fuzzy_matcher"
+require_relative 'fuzzy_matcher'
 
 module RSpec
   module Matchers
@@ -65,7 +65,9 @@ module RSpec
       # @!visibility public
       def values_match?(expected, actual)
         expected = with_matchers_cloned(expected)
-        Support::FuzzyMatcher.values_match?(expected, actual)
+        result = FuzzyMatcher.values_match?(expected, actual)
+        @composed_match_result = result
+        result.match?
       end
 
       # Returns the description of the given object in a way that is

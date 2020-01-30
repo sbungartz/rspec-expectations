@@ -83,7 +83,9 @@ RSpec.describe "expect(...).to match(expected)" do
     it 'fails when the matchers do not match' do
       expect {
         expect(["fod", 1.1]).to match([a_string_matching(/foo/), a_value_within(0.2).of(1)])
-      }.to fail_with('expected ["fod", 1.1] to match [(a string matching /foo/), (a value within 0.2 of 1)]')
+      }.to fail_with(<<-MESSAGE)
+Element [0] does not match: expected "fod" to match /foo/
+MESSAGE
     end
 
     it 'provides a description' do

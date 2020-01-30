@@ -21,6 +21,16 @@ module RSpec
         end
 
         # @api private
+        # @return [String]
+        def failure_message
+          if @composed_match_result
+            @composed_match_result.failure_messages
+          else
+            super
+          end
+        end
+
+        # @api private
         # @return [Boolean]
         def diffable?
           true
@@ -37,6 +47,7 @@ module RSpec
 
         def match(expected, actual)
           return match_captures(expected, actual) if @expected_captures
+          return expected === actual if Regexp === expected
           return true if values_match?(expected, actual)
           return false unless can_safely_call_match?(expected, actual)
           actual.match(expected)
