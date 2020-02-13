@@ -10,9 +10,18 @@ module RSpec
     #
     # @api private
     class AliasedMatcher < MatcherDelegator
+
       def initialize(base_matcher, description_block)
         @description_block = description_block
+        @force_verb_description = false
         super(base_matcher)
+      end
+
+      def with_verb_description
+        @force_verb_description = true
+        yield
+      ensure
+        @force_verb_description = false
       end
 
       # Forward messages on to the wrapped matcher.
@@ -34,7 +43,11 @@ module RSpec
       #
       # @api private
       def description
-        @description_block.call(super)
+        if @force_verb_description
+          super
+        else
+          @description_block.call(super)
+        end
       end
 
       # Provides the failure_message of the aliased matcher. Aliased matchers
@@ -44,7 +57,11 @@ module RSpec
       #
       # @api private
       def failure_message
-        @description_block.call(super)
+        if @force_verb_description
+          super
+        else
+          @description_block.call(super)
+        end
       end
 
       # Provides the failure_message_when_negated of the aliased matcher. Aliased matchers
@@ -54,7 +71,11 @@ module RSpec
       #
       # @api private
       def failure_message_when_negated
-        @description_block.call(super)
+        if @force_verb_description
+          super
+        else
+          @description_block.call(super)
+        end
       end
     end
 

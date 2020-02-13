@@ -9,6 +9,7 @@ module RSpec
           super(expected)
 
           @expected_captures = nil
+          @composed_match_result = nil
         end
         # @api private
         # @return [String]
