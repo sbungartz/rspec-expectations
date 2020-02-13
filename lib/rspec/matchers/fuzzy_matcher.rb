@@ -9,7 +9,7 @@ module RSpec
       # @api private
       def self.values_match?(expected, actual)
         if Hash === actual
-          return hashes_match?(expected, actual) if Hash === expected
+          return Result.new(hashes_match?(expected, actual)) if Hash === expected
         elsif Array === expected && Enumerable === actual && !(Struct === actual)
           return arrays_match?(expected, actual.to_a)
         end
