@@ -35,7 +35,11 @@ module RSpec
         return Result.new(false) if expected_list.size != actual_list.size
 
         results = expected_list.zip(actual_list).map do |expected, actual|
-          expected.with_verb_description do
+          if expected.respond_to?(:with_verb_description)
+            expected.with_verb_description do
+              values_match?(expected, actual)
+            end
+          else
             values_match?(expected, actual)
           end
         end
